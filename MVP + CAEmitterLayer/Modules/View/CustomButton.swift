@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class CustomButton: UIButton {
+final class CustomButton: UIButton {
     private let titleLable: UILabel = {
         let element = UILabel()
         element.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -48,9 +48,9 @@ class CustomButton: UIButton {
     }
     
     private func setupFirstButton(){
-        titleLable.text = "Показать Алерт"
+        titleLable.text = "Показать Алерт".uppercased()
         titleLable.textColor = .black
-        subTitleLabel.text = "Дополнительный текст"
+        subTitleLabel.text = "Дополнительный текст".uppercased()
         subTitleLabel.textColor = .lightGray
         self.backgroundColor = .white
         self.layer.borderWidth = 1
@@ -59,9 +59,9 @@ class CustomButton: UIButton {
     }
     
     private func setupSecondButton(){
-        titleLable.text = "Увеличить прогрусс"
+        titleLable.text = "Увеличить прогрусс".uppercased()
         titleLable.textColor = .white
-        subTitleLabel.text = "Текст"
+        subTitleLabel.text = "Текст".uppercased()
         subTitleLabel.textColor = .white
         self.backgroundColor = .red
         self.layer.borderWidth = 1
@@ -70,9 +70,9 @@ class CustomButton: UIButton {
     }
     
     private func setupThirdButton(){
-        titleLable.text = "Уменьшить прогрусс"
+        titleLable.text = "Уменьшить прогрусс".uppercased()
         titleLable.textColor = .white
-        subTitleLabel.text = "Текст"
+        subTitleLabel.text = "Текст".uppercased()
         subTitleLabel.textColor = .white
         self.backgroundColor = .green
         self.layer.borderWidth = 1
@@ -81,9 +81,9 @@ class CustomButton: UIButton {
     }
     
     private func setupFourthButton(){
-        titleLable.text = "Изменить Background"
+        titleLable.text = "Изменить Background".uppercased()
         titleLable.textColor = .black
-        subTitleLabel.text = "Дополнительный текст"
+        subTitleLabel.text = "Дополнительный текст".uppercased()
         subTitleLabel.textColor = .lightGray
         self.backgroundColor = .white
         self.layer.borderWidth = 1
@@ -127,6 +127,27 @@ class CustomButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer?.frame = self.bounds
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        animateButton(scale: 0.95)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        animateButton(scale: 1.0)
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        animateButton(scale: 1.0)
+    }
+    
+    private func animateButton(scale: CGFloat) {
+        UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseInOut, animations: {
+            self.transform = CGAffineTransform(scaleX: scale, y: scale)
+        }, completion: nil)
     }
     
 }

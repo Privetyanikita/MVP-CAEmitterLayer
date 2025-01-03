@@ -48,7 +48,7 @@ final class CustomAlert: UIViewController {
         element.layer.shadowColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
         element.layer.shadowOffset = CGSize(width: 0, height: 4)
         element.layer.shadowOpacity = 0.5
-        element.layer.shadowRadius = 2
+        element.layer.shadowRadius = 4
         return element
     }()
     

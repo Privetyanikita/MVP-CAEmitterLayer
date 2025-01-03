@@ -69,11 +69,11 @@ class ProgressBarView: UIView {
         progress = clampedProgress
     }
     
-    func addProgress (_ newProgress: CGFloat) {
+    func addProgress () {
         setProgress(progress + 0.1, animated: true)
     }
     
-    func deleteProgress () {
+    func deleteProgress() {
         setProgress(progress - 0.1, animated: true)
     }
     

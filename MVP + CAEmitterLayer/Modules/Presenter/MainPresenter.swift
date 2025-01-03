@@ -7,5 +7,14 @@
 
 import UIKit
 
-class MainPresenter {
+protocol MainViewProtocol: AnyObject {
+    
+}
+
+protocol MainPresenterProtocol: AnyObject {
+    
+}
+
+final class MainPresenter {
+    weak var view: MainViewProtocol?
 }

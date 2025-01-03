@@ -8,13 +8,12 @@
 import UIKit
 import SnapKit
 
-
 class ViewController: UIViewController {
-
     private let crossImageView: UIImageView = {
         let element = UIImageView()
         element.image = UIImage(systemName: "xmark")?.withTintColor(.black, renderingMode: .alwaysOriginal)
         element.contentMode = .scaleAspectFill
+        element.isUserInteractionEnabled = true
         return element
     }()
     
@@ -60,6 +59,7 @@ class ViewController: UIViewController {
         firstButton.addTarget(self, action: #selector(firstButtonTapped), for: .touchUpInside)
         secondButton.addTarget(self, action: #selector(secondButtonTapped), for: .touchUpInside)
         thirdButton.addTarget(self, action: #selector(thirdButtonTapped), for: .touchUpInside)
+        crossImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(crossButtonTapped)))
     }
     
     @objc private func firstButtonTapped() {
@@ -72,12 +72,17 @@ class ViewController: UIViewController {
     
     @objc private func secondButtonTapped() {
         progressCounter += 1
-        progtessBar.addProgress(0.1)
+        progtessBar.addProgress()
     }
     
     @objc private func thirdButtonTapped() {
         progressCounter -= 1
-        progtessBar.addProgress(-0.1)
+        progtessBar.deleteProgress()
+    }
+    
+    @objc private func crossButtonTapped() {
+        progressCounter = 0
+        progtessBar.resetProgress()
     }
     
 }
