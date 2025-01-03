@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 final class CustomButton: UIButton {
+    //MARK: - Properties
     private let titleLable: UILabel = {
         let element = UILabel()
         element.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -16,7 +17,6 @@ final class CustomButton: UIButton {
         element.numberOfLines = 1
         return element
     }()
-    
     private let subTitleLabel: UILabel = {
         let element = UILabel()
         element.font = UIFont.systemFont(ofSize: 18, weight: .medium)
@@ -24,9 +24,8 @@ final class CustomButton: UIButton {
         element.numberOfLines = 1
         return element
     }()
-    
     private var gradientLayer: CAGradientLayer?
-    
+    //MARK: - Init
     init(with: ButtonsType) {
         super.init(frame: .zero)
         switch with {
@@ -46,7 +45,7 @@ final class CustomButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    //MARK: - Methods
     private func setupFirstButton(){
         titleLable.text = "Показать Алерт".uppercased()
         titleLable.textColor = .black
@@ -151,7 +150,7 @@ final class CustomButton: UIButton {
     }
     
 }
-
+//MARK: - Setup Constraint
 extension CustomButton {
     func setupConstraint() {
         titleLable.snp.makeConstraints { make in

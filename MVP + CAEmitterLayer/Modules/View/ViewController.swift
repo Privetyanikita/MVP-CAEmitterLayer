@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
+    //MARK: - Properties
     private let crossImageView: UIImageView = {
         let element = UIImageView()
         element.image = UIImage(systemName: "xmark")?.withTintColor(.black, renderingMode: .alwaysOriginal)
@@ -20,48 +21,66 @@ class ViewController: UIViewController {
     private let statusProgressLabel: UILabel = {
         let element = UILabel()
         element.text = "0/10"
-        element.textColor = .systemGray
+        element.textColor = .black
         element.textAlignment = .center
         element.font = UIFont.systemFont(ofSize: 20)
         return element
     }()
     
-    private let progtessBar = ProgressBarView()
+    private let progressBar = ProgressBarView()
     private let firstButton = CustomButton(with: .firstButton)
     private let secondButton = CustomButton(with: .secondButton)
     private let thirdButton = CustomButton(with: .thirdButton)
     private let fourthButton = CustomButton(with: .fourthButton)
-    private var progressCounter:Int = 0 {
-        didSet {
-            if progressCounter < 0 {
-                progressCounter = 0
-            }
-            else if progressCounter >= 10 {
-                progressCounter = 10
-            }
-            statusProgressLabel.text = "\(progressCounter)/10"
-        }
-    }
+    var presenter: MainPresenterProtocol!
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupViews()
         setupConstraint()
         addTargets()
+        presenter.viewDidLoad()
     }
     
+    //MARK: - Methods
     private func setupViews() {
-        view.add(subviews: crossImageView, progtessBar, statusProgressLabel, firstButton, secondButton, thirdButton, fourthButton)
+        view.add(subviews: crossImageView, progressBar, statusProgressLabel, firstButton, secondButton, thirdButton, fourthButton)
     }
     
     private func addTargets() {
         firstButton.addTarget(self, action: #selector(firstButtonTapped), for: .touchUpInside)
         secondButton.addTarget(self, action: #selector(secondButtonTapped), for: .touchUpInside)
         thirdButton.addTarget(self, action: #selector(thirdButtonTapped), for: .touchUpInside)
+        fourthButton.addTarget(self, action: #selector(fourthButtonTapped), for: .touchUpInside)
         crossImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(crossButtonTapped)))
     }
     
+    private func isColorDark(_ color: UIColor) -> Bool {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        let brightness = (red * 299 + green * 587 + blue * 114) / 1000
+        return brightness < 0.5
+    }
+    
+    private func updateColors() {
+        if isColorDark(view.backgroundColor ?? .white) {
+            crossImageView.image = UIImage(systemName: "xmark")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+            statusProgressLabel.textColor = .white
+        } else {
+            crossImageView.image = UIImage(systemName: "xmark")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+            statusProgressLabel.textColor = .black
+        }
+    }
+    
+    private func resetColors() {
+        view.backgroundColor = .white
+        crossImageView.image = UIImage(systemName: "xmark")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        statusProgressLabel.textColor = .label
+    }
+    
+    //MARK: - Actions
     @objc private func firstButtonTapped() {
         let customAlert = CustomAlert()
         customAlert.modalPresentationStyle = .overCurrentContext
@@ -71,22 +90,24 @@ class ViewController: UIViewController {
     }
     
     @objc private func secondButtonTapped() {
-        progressCounter += 1
-        progtessBar.addProgress()
+        presenter.incrementProgress()
     }
     
     @objc private func thirdButtonTapped() {
-        progressCounter -= 1
-        progtessBar.deleteProgress()
+        presenter.decrementProgress()
     }
     
     @objc private func crossButtonTapped() {
-        progressCounter = 0
-        progtessBar.resetProgress()
+        presenter.resetProgress()
+        resetColors()
+    }
+    
+    @objc private func fourthButtonTapped() {
+        presenter.randomColorBackground()
     }
     
 }
-
+//MARK: - Setup Constraint
 extension ViewController {
     private func setupConstraint() {
         crossImageView.snp.makeConstraints { make in
@@ -100,7 +121,7 @@ extension ViewController {
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
         
-        progtessBar.snp.makeConstraints { make in
+        progressBar.snp.makeConstraints { make in
             make.centerY.equalTo(crossImageView)
             make.leading.equalTo(crossImageView.snp.trailing).offset(43)
             make.trailing.equalTo(statusProgressLabel.snp.leading).offset(-43)
@@ -108,7 +129,7 @@ extension ViewController {
         }
         
         firstButton.snp.makeConstraints { make in
-            make.top.equalTo(progtessBar.snp.bottom).offset(164)
+            make.top.equalTo(progressBar.snp.bottom).offset(164)
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.height.equalTo(72)
@@ -134,6 +155,30 @@ extension ViewController {
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.height.equalTo(72)
         }
+    }
+}
+
+// MARK: - MainViewProtocol Implementation
+extension ViewController: MainViewProtocol {
+    func updateProgressLabel(text: String) {
+        statusProgressLabel.text = text
+    }
+    
+    func addProgress() {
+        progressBar.addProgress()
+    }
+    
+    func deleteProgress() {
+        progressBar.deleteProgress()
+    }
+
+    func resetProgressBar() {
+        progressBar.resetProgress()
+    }
+    
+    func randomColorBackground() {
+        view.backgroundColor = UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 1.0)
+        updateColors()
     }
 }
 

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class ProgressBarView: UIView {
+    //MARK: - Properties
     private let progressLayer: CALayer = {
         let element = CALayer()
         element.backgroundColor = UIColor.systemRed.cgColor
@@ -30,6 +31,7 @@ class ProgressBarView: UIView {
         }
     }
     
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayers()
@@ -39,7 +41,7 @@ class ProgressBarView: UIView {
         super.init(coder: coder)
         setupLayers()
     }
-    
+    //MARK: - Methods
     private func setupLayers() {
         layer.addSublayer(backgroundLayer)
         layer.addSublayer(progressLayer)
