@@ -46,7 +46,7 @@ class ConfettiView: UIView {
     private func setupConfettiEmitterLayer() {
         confettiEmitterLayer.emitterSize = CGSize(width: bounds.width, height: 2) // Эмиттер по всей ширине экрана
         confettiEmitterLayer.emitterShape = .line // Частицы генерируются из линии
-        confettiEmitterLayer.emitterPosition = CGPoint(x: bounds.width / 2, y: 0) // Верхняя центральная часть экрана
+        confettiEmitterLayer.emitterPosition = CGPoint(x: bounds.width, y: 0) // Верхняя центральная часть экрана
         confettiEmitterLayer.birthRate = 0
     }
 
