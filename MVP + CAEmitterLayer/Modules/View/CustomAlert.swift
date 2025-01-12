@@ -41,7 +41,7 @@ final class CustomAlert: UIViewController {
         let element = UIButton()
         element.setTitle("Готово".uppercased(), for: .normal)
         element.setTitleColor(.white, for: .normal)
-        element.backgroundColor = .systemBlue
+        element.backgroundColor = .gray
         element.layer.cornerRadius = 16
         element.layer.borderWidth = 2
         element.layer.borderColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
@@ -61,6 +61,7 @@ final class CustomAlert: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textField.delegate = self
         setupView()
         setupConstraint()
         setupBackgroundTapDismiss()
@@ -71,6 +72,8 @@ final class CustomAlert: UIViewController {
         view.add(subviews: containerView)
         containerView.add(subviews: titleLabel, backgroundView, textField, saveButton)
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
+        saveButton.addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
     }
     
     private func setupBackgroundTapDismiss() {
@@ -89,9 +92,21 @@ final class CustomAlert: UIViewController {
     @objc private func saveButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
+    
+    @objc private func handleTouchDown() {
+        UIView.animate(withDuration: 0.15, delay: 0, options: [.curveEaseIn], animations: {
+            self.saveButton.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+        }, completion: nil)
+    }
+
+    @objc private func handleTouchUp() {
+        UIView.animate(withDuration: 0.15, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 3, options: [.curveEaseOut], animations: {
+            self.saveButton.transform = .identity
+        }, completion: nil)
+    }
 }
 
-extension CustomAlert {
+extension CustomAlert: UITextFieldDelegate {
     private func setupConstraint() {
         containerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -125,5 +140,20 @@ extension CustomAlert {
             make.trailing.equalToSuperview().inset(20)
             make.height.equalTo(48)
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        if updatedText.isEmpty {
+            saveButton.backgroundColor = .gray
+            saveButton.isEnabled = false
+        } else {
+            saveButton.backgroundColor = .systemBlue
+            saveButton.isEnabled = true
+        }
+        return true
     }
 }

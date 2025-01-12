@@ -74,6 +74,5 @@ extension MainPresenter: MainPresenterProtocol {
     
     func randomColorBackground() {
         view?.randomColorBackground()
-        updateView()
     }
 }

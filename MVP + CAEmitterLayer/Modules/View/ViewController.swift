@@ -32,6 +32,7 @@ class ViewController: UIViewController {
     private let secondButton = CustomButton(with: .secondButton)
     private let thirdButton = CustomButton(with: .thirdButton)
     private let fourthButton = CustomButton(with: .fourthButton)
+    private let confetti = ConfettiView()
     var presenter: MainPresenterProtocol!
     
     //MARK: - Lifecycle
@@ -46,7 +47,7 @@ class ViewController: UIViewController {
     
     //MARK: - Methods
     private func setupViews() {
-        view.add(subviews: crossImageView, progressBar, statusProgressLabel, firstButton, secondButton, thirdButton, fourthButton)
+        view.add(subviews: crossImageView, progressBar, statusProgressLabel, firstButton, secondButton, thirdButton, fourthButton, confetti)
     }
     
     private func addTargets() {
@@ -80,6 +81,18 @@ class ViewController: UIViewController {
         statusProgressLabel.textColor = .label
     }
     
+    func showConfetti() {
+        confetti.startConfetti()
+    }
+    
+    func checkProgress() {
+        print(progressBar.currentProgress())
+        if progressBar.currentProgress() > 0.9 {
+            confetti.layoutIfNeeded()
+            showConfetti()
+        }
+    }
+    
     //MARK: - Actions
     @objc private func firstButtonTapped() {
         let customAlert = CustomAlert()
@@ -91,6 +104,7 @@ class ViewController: UIViewController {
     
     @objc private func secondButtonTapped() {
         presenter.incrementProgress()
+        checkProgress()
     }
     
     @objc private func thirdButtonTapped() {
@@ -154,6 +168,10 @@ extension ViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.height.equalTo(72)
+        }
+        
+        confetti.snp.makeConstraints { make in
+            make.edges.equalTo(view)
         }
     }
 }
