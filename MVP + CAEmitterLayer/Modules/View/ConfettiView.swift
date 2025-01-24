@@ -11,8 +11,7 @@ class ConfettiView: UIView {
 
     private let dimension = 4
     private var velocities = [50, 100, 150, 200]
-    private var imageNames = ["box", "circle", "spiral", "triangle"]
-    private var colors: [UIColor] = [.red, .green, .blue, .magenta]
+    private var emojis = ["🎉", "✨", "🎈", "🍀"]
 
     private let rootLayer = CALayer()
     private let confettiEmitterLayer = CAEmitterLayer()
@@ -37,6 +36,14 @@ class ConfettiView: UIView {
         confettiEmitterLayer.emitterCells = generateConfettiEmitterCells()
         rootLayer.addSublayer(confettiEmitterLayer)
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Обновляем размеры эмиттера
+        confettiEmitterLayer.emitterPosition = CGPoint(x: bounds.width / 2, y: 0)
+        confettiEmitterLayer.emitterSize = CGSize(width: bounds.width, height: 1)
+    }
 
     // MARK: - Setup Layers
     private func setupRootLayer() {
@@ -44,9 +51,7 @@ class ConfettiView: UIView {
     }
 
     private func setupConfettiEmitterLayer() {
-        confettiEmitterLayer.emitterSize = CGSize(width: bounds.width, height: 2) // Эмиттер по всей ширине экрана
-        confettiEmitterLayer.emitterShape = .line // Частицы генерируются из линии
-        confettiEmitterLayer.emitterPosition = CGPoint(x: bounds.width, y: 0) // Верхняя центральная часть экрана
+        confettiEmitterLayer.emitterShape = .line
         confettiEmitterLayer.birthRate = 0
     }
 
@@ -54,19 +59,18 @@ class ConfettiView: UIView {
     private func generateConfettiEmitterCells() -> [CAEmitterCell] {
         var cells = [CAEmitterCell]()
 
-        for index in 0..<10 {
+        for index in 0..<emojis.count {
             let cell = CAEmitterCell()
-            cell.color = nextColor(i: index)
-            cell.contents = UIImage(systemName: "star.fill")?.cgImage
+            cell.contents = generateEmojiImage(emoji: emojis[index])?.cgImage
             cell.birthRate = 4.0
             cell.lifetime = 14.0
             cell.lifetimeRange = 0
-            cell.scale = 0.1
-            cell.scaleRange = 0.25
+            cell.scale = 0.2
+            cell.scaleRange = 0.1
             cell.velocity = CGFloat(randomVelocity)
-            cell.velocityRange = 50 // Небольшой разброс скорости
-            cell.emissionLongitude = CGFloat.pi // Направление вниз
-            cell.emissionRange = CGFloat.pi / 4 // Разброс угла движения частиц
+            cell.velocityRange = 50
+            cell.emissionLongitude = CGFloat.pi
+            cell.emissionRange = CGFloat.pi / 4
             cell.spin = 3.5
             cell.spinRange = 1
 
@@ -85,15 +89,15 @@ class ConfettiView: UIView {
         return velocities[randomNumber]
     }
 
-    private func nextColor(i: Int) -> CGColor {
-        return colors[i % dimension].cgColor
-    }
-
-    private func nextImage(i: Int) -> CGImage? {
-        guard let image = UIImage(named: imageNames[i % dimension]) else {
-            return nil
-        }
-        return image.cgImage
+    private func generateEmojiImage(emoji: String) -> UIImage? {
+        let size = CGSize(width: 35, height: 35)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 28)]
+        let string = NSAttributedString(string: emoji, attributes: attributes)
+        string.draw(in: CGRect(origin: .zero, size: size))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
 
     // MARK: - Public Methods

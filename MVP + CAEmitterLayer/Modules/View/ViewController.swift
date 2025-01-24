@@ -111,13 +111,13 @@ class ViewController: UIViewController {
         presenter.decrementProgress()
     }
     
+    @objc private func fourthButtonTapped() {
+        presenter.randomColorBackground()
+    }
+    
     @objc private func crossButtonTapped() {
         presenter.resetProgress()
         resetColors()
-    }
-    
-    @objc private func fourthButtonTapped() {
-        presenter.randomColorBackground()
     }
     
 }

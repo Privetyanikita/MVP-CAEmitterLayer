@@ -40,15 +40,11 @@ final class CustomAlert: UIViewController {
     private let saveButton: UIButton = {
         let element = UIButton()
         element.setTitle("Готово".uppercased(), for: .normal)
-        element.setTitleColor(.white, for: .normal)
-        element.backgroundColor = .gray
+        element.setTitleColor(.gray, for: .normal)
+        element.backgroundColor = .systemGray4
         element.layer.cornerRadius = 16
         element.layer.borderWidth = 2
-        element.layer.borderColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
-        element.layer.shadowColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
-        element.layer.shadowOffset = CGSize(width: 0, height: 4)
-        element.layer.shadowOpacity = 0.5
-        element.layer.shadowRadius = 4
+        element.layer.borderColor = .init(gray: 1, alpha: 1)
         return element
     }()
     
@@ -148,12 +144,34 @@ extension CustomAlert: UITextFieldDelegate {
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
         if updatedText.isEmpty {
-            saveButton.backgroundColor = .gray
-            saveButton.isEnabled = false
+            saveButton.inactive()
         } else {
-            saveButton.backgroundColor = .systemBlue
-            saveButton.isEnabled = true
+            saveButton.active()
         }
         return true
+    }
+}
+
+extension UIButton {
+    func active() {
+        self.layer.borderColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
+        self.layer.shadowColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowRadius = 4
+        self.backgroundColor = .systemBlue
+        self.titleLabel?.textColor = .white
+        self.isEnabled = true
+    }
+    
+    func inactive() {
+        self.layer.borderColor = .init(gray: 1, alpha: 1)
+        self.layer.shadowColor = nil
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.layer.shadowOpacity = 0
+        self.layer.shadowRadius = 0
+        self.backgroundColor = .systemGray4
+        self.titleLabel?.textColor = .gray
+        self.isEnabled = false
     }
 }
