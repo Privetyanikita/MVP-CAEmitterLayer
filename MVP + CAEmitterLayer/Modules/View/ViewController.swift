@@ -138,7 +138,7 @@ extension ViewController {
         progressBar.snp.makeConstraints { make in
             make.centerY.equalTo(crossImageView)
             make.leading.equalTo(crossImageView.snp.trailing).offset(43)
-            make.trailing.equalTo(statusProgressLabel.snp.leading).offset(-43)
+            make.width.equalTo(210)
             make.height.equalTo(13)
         }
         
