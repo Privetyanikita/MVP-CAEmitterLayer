@@ -17,6 +17,7 @@ class ProgressBarView: UIView {
         element.masksToBounds = true
         return element
     }()
+    
     private let backgroundLayer: CALayer = {
         let element = CALayer()
         element.backgroundColor = UIColor.lightGray.cgColor
