@@ -86,8 +86,8 @@ class ViewController: UIViewController {
     }
     
     func checkProgress() {
-        print(progressBar.currentProgress())
-        if progressBar.currentProgress() > 0.9 {
+        print(progressBar.progress)
+        if progressBar.progress > 0.9 {
             confetti.layoutIfNeeded()
             showConfetti()
         }
