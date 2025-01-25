@@ -103,12 +103,12 @@ class ViewController: UIViewController {
     }
     
     @objc private func secondButtonTapped() {
-        presenter.incrementProgress()
+        presenter.updateProgress(action: .increment)
         checkProgress()
     }
     
     @objc private func thirdButtonTapped() {
-        presenter.decrementProgress()
+        presenter.updateProgress(action: .decrement)
     }
     
     @objc private func fourthButtonTapped() {
@@ -116,7 +116,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func crossButtonTapped() {
-        presenter.resetProgress()
+        presenter.updateProgress(action: .reset)
         resetColors()
     }
     
@@ -182,16 +182,15 @@ extension ViewController: MainViewProtocol {
         statusProgressLabel.text = text
     }
     
-    func addProgress() {
-        progressBar.addProgress()
-    }
-    
-    func deleteProgress() {
-        progressBar.deleteProgress()
-    }
-
-    func resetProgressBar() {
-        progressBar.resetProgress()
+    func updateProgressBar(action: ProgressBarAction) {
+        switch action {
+        case .add:
+            progressBar.addProgress()
+        case .delete:
+            progressBar.deleteProgress()
+        case .reset:
+            progressBar.resetProgress()
+        }
     }
     
     func randomColorBackground() {

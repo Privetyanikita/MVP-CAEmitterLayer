@@ -27,3 +27,11 @@ struct ProgressModel {
         progress = 0
     }
 }
+
+enum ProgressAction {
+    case increment, decrement, reset
+}
+
+enum ProgressBarAction {
+    case add, delete, reset
+}

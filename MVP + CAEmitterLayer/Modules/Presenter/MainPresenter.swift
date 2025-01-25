@@ -10,17 +10,13 @@ import UIKit
 //MARK: - Protocol
 protocol MainViewProtocol: AnyObject {
     func updateProgressLabel(text: String)
-    func addProgress()
-    func deleteProgress()
-    func resetProgressBar()
+    func updateProgressBar(action: ProgressBarAction)
     func randomColorBackground()
 }
 
 protocol MainPresenterProtocol: AnyObject {
     func viewDidLoad()
-    func incrementProgress()
-    func decrementProgress()
-    func resetProgress()
+    func updateProgress(action: ProgressAction)
     func randomColorBackground()
 }
 
@@ -47,29 +43,30 @@ final class MainPresenter {
         customAlert.preferredContentSize = CGSize(width: 300, height: 200)
         viewController.present(customAlert, animated: true, completion: nil)
     }
+    
+    private func handleProgress(action: ProgressAction) {
+            switch action {
+            case .increment:
+                model.increment()
+                view?.updateProgressBar(action: .add)
+            case .decrement:
+                model.decrement()
+                view?.updateProgressBar(action: .delete)
+            case .reset:
+                model.reset()
+                view?.updateProgressBar(action: .reset)
+            }
+            updateView()
+        }
 }
 //MARK: - MainPresenterProtocol
 extension MainPresenter: MainPresenterProtocol {
     func viewDidLoad() {
         updateView()
     }
-
-    func incrementProgress() {
-        model.increment()
-        updateView()
-        view?.addProgress()
-    }
-
-    func decrementProgress() {
-        model.decrement()
-        updateView()
-        view?.deleteProgress()
-    }
-
-    func resetProgress() {
-        model.reset()
-        updateView()
-        view?.resetProgressBar()
+    
+    func updateProgress(action: ProgressAction) {
+        handleProgress(action: action)
     }
     
     func randomColorBackground() {
