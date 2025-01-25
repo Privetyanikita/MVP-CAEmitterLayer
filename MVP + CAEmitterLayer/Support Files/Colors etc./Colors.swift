@@ -9,16 +9,25 @@ import UIKit
 
 enum Color {
     case blue
+    case blueBorder
     case red
+    case redBorder
     case green
+    case greenBorder
     
     var uiColor: UIColor {
         switch self {
         case .blue:
-            UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0)
+            UIColor(red: 77/255, green: 171/255, blue: 247/255, alpha: 1.0)
+        case .blueBorder:
+            UIColor(red: 34/255, green: 139/230, blue: 247/255, alpha: 1.0)
         case .red:
+            UIColor(red: 255/255, green: 107/255, blue: 109/255, alpha: 1.0)
+        case .redBorder:
             UIColor(red: 210/255, green: 79/255, blue: 81/255, alpha: 1.0)
         case .green:
+            UIColor(red: 81/255, green: 207/255, blue: 102/255, alpha: 1.0)
+        case .greenBorder:
             UIColor(red: 55/255, green: 178/255, blue: 77/255, alpha: 1.0)
         }
     }
