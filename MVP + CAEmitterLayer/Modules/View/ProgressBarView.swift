@@ -25,7 +25,7 @@ class ProgressBarView: UIView {
         return element
     }()
     
-    private var progress: CGFloat = 0 {
+    private(set) var progress: CGFloat = 0 {
         didSet {
             updateProgressLayer()
         }
@@ -69,10 +69,6 @@ class ProgressBarView: UIView {
             progressLayer.add(animation, forKey: "progressAnimation")
         }
         progress = clampedProgress
-    }
-    
-    func currentProgress() -> CGFloat {
-        return progress
     }
     
     func addProgress () {
