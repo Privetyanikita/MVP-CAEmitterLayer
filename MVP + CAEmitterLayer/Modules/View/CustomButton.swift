@@ -47,9 +47,9 @@ final class CustomButton: UIButton {
     }
     //MARK: - Methods
     private func setupFirstButton(){
-        titleLable.text = "Показать Алерт".uppercased()
+        titleLable.text = MockData.showAlert.rawValue.uppercased()
         titleLable.textColor = .black
-        subTitleLabel.text = "Дополнительный текст".uppercased()
+        subTitleLabel.text = MockData.suplementaryText.rawValue.uppercased()
         subTitleLabel.textColor = .lightGray
         self.backgroundColor = .white
         self.layer.borderWidth = 1
@@ -58,31 +58,31 @@ final class CustomButton: UIButton {
     }
     
     private func setupSecondButton(){
-        titleLable.text = "Увеличить прогрусс".uppercased()
+        titleLable.text = MockData.incrementProgress.rawValue.uppercased()
         titleLable.textColor = .white
-        subTitleLabel.text = "Текст".uppercased()
+        subTitleLabel.text = MockData.text.rawValue.uppercased()
         subTitleLabel.textColor = .white
         self.backgroundColor = .red
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor(red: 210/255, green: 79/255, blue: 81/255, alpha: 1.0).cgColor
-        addBottomBorder(width: 4, color: UIColor(red: 210/255, green: 79/255, blue: 81/255, alpha: 1.0))
+        self.layer.borderColor = Color.red.uiColor.cgColor
+        addBottomBorder(width: 4, color: Color.red.uiColor)
     }
     
     private func setupThirdButton(){
-        titleLable.text = "Уменьшить прогрусс".uppercased()
+        titleLable.text = MockData.decrementProgress.rawValue.uppercased()
         titleLable.textColor = .white
-        subTitleLabel.text = "Текст".uppercased()
+        subTitleLabel.text = MockData.text.rawValue.uppercased()
         subTitleLabel.textColor = .white
         self.backgroundColor = .green
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor(red: 55/255, green: 178/255, blue: 77/255, alpha: 1.0).cgColor
-        addBottomBorder(width: 4, color: UIColor(red: 55/255, green: 178/255, blue: 77/255, alpha: 1.0))
+        self.layer.borderColor = Color.green.uiColor.cgColor
+        addBottomBorder(width: 4, color: Color.green.uiColor)
     }
     
     private func setupFourthButton(){
-        titleLable.text = "Изменить Background".uppercased()
+        titleLable.text = MockData.changesBackground.rawValue.uppercased()
         titleLable.textColor = .black
-        subTitleLabel.text = "Дополнительный текст".uppercased()
+        subTitleLabel.text = MockData.suplementaryText.rawValue.uppercased()
         subTitleLabel.textColor = .lightGray
         self.backgroundColor = .white
         self.layer.borderWidth = 1
@@ -99,14 +99,7 @@ final class CustomButton: UIButton {
     
     private func addCustomGradientToButton() {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            UIColor(red: 30/255, green: 213/255, blue: 27/255, alpha: 0.2).cgColor,
-            UIColor(red: 255/255, green: 247/255, blue: 45/255, alpha: 0.2).cgColor,
-            UIColor(red: 255/255, green: 183/255, blue: 44/255, alpha: 0.2).cgColor,
-            UIColor(red: 232/255, green: 8/255, blue: 8/255, alpha: 0.2).cgColor,
-            UIColor(red: 200/255, green: 8/255, blue: 232/255, alpha: 0.2).cgColor,
-            UIColor(red: 39/255, green: 233/255, blue: 245/255, alpha: 0.2).cgColor
-        ]
+        gradientLayer.colors = Colors.gradient.cgColor
         gradientLayer.locations = [0.0, 0.2, 0.4, 0.6, 0.79, 1.0]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)

@@ -23,13 +23,13 @@ final class CustomAlert: UIViewController {
         element.textAlignment = .center
         element.numberOfLines = 1
         element.textColor = .black
-        element.text = "Введите ваше имя".uppercased()
+        element.text = MockData.inputYourName.rawValue.uppercased()
         return element
     }()
     
     private let textField: UITextField = {
         let element = UITextField()
-        element.placeholder = "Ваше имя".uppercased()
+        element.placeholder = MockData.yourName.rawValue.uppercased()
         element.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         element.textAlignment = .left
         element.backgroundColor = .clear
@@ -39,7 +39,7 @@ final class CustomAlert: UIViewController {
     
     private let saveButton: UIButton = {
         let element = UIButton()
-        element.setTitle("Готово".uppercased(), for: .normal)
+        element.setTitle(MockData.done.rawValue.uppercased(), for: .normal)
         element.setTitleColor(.gray, for: .normal)
         element.backgroundColor = .systemGray4
         element.layer.cornerRadius = 16
@@ -154,8 +154,8 @@ extension CustomAlert: UITextFieldDelegate {
 
 extension UIButton {
     func active() {
-        self.layer.borderColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
-        self.layer.shadowColor = UIColor(red: 34/255, green: 139/255, blue: 230/255, alpha: 1.0).cgColor
+        self.layer.borderColor = Color.blue.uiColor.cgColor
+        self.layer.shadowColor = Color.blue.uiColor.cgColor
         self.layer.shadowOffset = CGSize(width: 0, height: 4)
         self.layer.shadowOpacity = 0.5
         self.layer.shadowRadius = 4
