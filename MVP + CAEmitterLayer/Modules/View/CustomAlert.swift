@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 final class CustomAlert: UIViewController {
+    //MARK: - Properties
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -37,17 +38,6 @@ final class CustomAlert: UIViewController {
         return element
     }()
     
-    private let saveButton: UIButton = {
-        let element = UIButton()
-        element.setTitle(MockData.done.rawValue.uppercased(), for: .normal)
-        element.setTitleColor(.gray, for: .normal)
-        element.backgroundColor = .systemGray4
-        element.layer.cornerRadius = 16
-        element.layer.borderWidth = 2
-        element.layer.borderColor = .init(gray: 1, alpha: 1)
-        return element
-    }()
-    
     private let backgroundView: UIView = {
         let element = UIView()
         element.backgroundColor = .systemGray5
@@ -55,6 +45,9 @@ final class CustomAlert: UIViewController {
         return element
     }()
     
+    private let saveButton = CustomButtonAlert()
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.delegate = self
@@ -63,6 +56,7 @@ final class CustomAlert: UIViewController {
         setupBackgroundTapDismiss()
     }
     
+    //MARK: - Methods
     private func setupView() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         view.add(subviews: containerView)
@@ -78,6 +72,7 @@ final class CustomAlert: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
+    //MARK: - OBJC Methods
     @objc private func backgroundTapped(_ sender: UITapGestureRecognizer) {
         let location = sender.location(in: view)
         if !containerView.frame.contains(location) {
@@ -102,6 +97,7 @@ final class CustomAlert: UIViewController {
     }
 }
 
+//MARK: - Ext
 extension CustomAlert: UITextFieldDelegate {
     private func setupConstraint() {
         containerView.snp.makeConstraints { make in
@@ -149,29 +145,5 @@ extension CustomAlert: UITextFieldDelegate {
             saveButton.active()
         }
         return true
-    }
-}
-
-extension UIButton {
-    func active() {
-        self.layer.borderColor = Color.blue.uiColor.cgColor
-        self.layer.shadowColor = Color.blue.uiColor.cgColor
-        self.layer.shadowOffset = CGSize(width: 0, height: 4)
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowRadius = 4
-        self.backgroundColor = .systemBlue
-        self.titleLabel?.textColor = .white
-        self.isEnabled = true
-    }
-    
-    func inactive() {
-        self.layer.borderColor = .init(gray: 1, alpha: 1)
-        self.layer.shadowColor = nil
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowOpacity = 0
-        self.layer.shadowRadius = 0
-        self.backgroundColor = .systemGray4
-        self.titleLabel?.textColor = .gray
-        self.isEnabled = false
     }
 }

@@ -21,6 +21,7 @@ final class CustomButtonAlert: UIButton {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
+        setupConstrains()
     }
     
     required init?(coder: NSCoder) {
@@ -31,10 +32,25 @@ final class CustomButtonAlert: UIButton {
         self.add(subviews: backgroundView)
         self.setTitle(MockData.done.rawValue.uppercased(), for: .normal)
         self.setTitleColor(.gray, for: .normal)
-        self.backgroundColor = Color.blueBorder.uiColor
         self.layer.cornerRadius = 16
         self.layer.borderWidth = 2
-        self.layer.borderColor = .init(gray: 1, alpha: 1)
+        inactive()
+    }
+    
+    func active() {
+        self.backgroundColor = Color.blueBorder.uiColor
+        self.titleLabel?.textColor = .white
+        self.layer.borderColor = Color.blueBorder.uiColor.cgColor
+        self.isEnabled = true
+        backgroundView.backgroundColor = Color.blue.uiColor
+    }
+    
+    func inactive() {
+        self.titleLabel?.textColor = .gray
+        self.backgroundColor = .clear
+        self.layer.borderColor = CGColor(gray: 1, alpha: 0.0)
+        self.isEnabled = false
+        backgroundView.backgroundColor = .systemGray4
     }
 }
 
