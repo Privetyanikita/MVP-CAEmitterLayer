@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConfettiView: UIView {
+final class ConfettiView: UIView {
 
     private let dimension = 4
     private var velocities = [50, 100, 150, 200]
@@ -39,8 +39,6 @@ class ConfettiView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        // Обновляем размеры эмиттера
         confettiEmitterLayer.emitterPosition = CGPoint(x: bounds.width / 2, y: 0)
         confettiEmitterLayer.emitterSize = CGSize(width: bounds.width, height: 1)
     }
