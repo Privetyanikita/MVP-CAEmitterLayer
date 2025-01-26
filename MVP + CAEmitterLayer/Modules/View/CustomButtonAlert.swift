@@ -57,7 +57,7 @@ final class CustomButtonAlert: UIButton {
 extension CustomButtonAlert {
     private func setupConstrains() {
         backgroundView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.trailing.top.equalToSuperview()
             make.bottom.equalToSuperview().inset(5)
         }
     }
