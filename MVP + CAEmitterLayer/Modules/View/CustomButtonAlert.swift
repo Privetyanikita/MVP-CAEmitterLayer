@@ -18,6 +18,8 @@ final class CustomButtonAlert: UIButton {
         return element
     }()
     
+    private var buttonIsActive = false
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -37,11 +39,14 @@ final class CustomButtonAlert: UIButton {
     }
     
     func active() {
+        guard buttonIsActive != true else { return }
+        
         self.setTitleColor(.white, for: .normal)
         self.backgroundColor = Color.blueBorder.uiColor
         self.layer.borderColor = Color.blueBorder.uiColor.cgColor
         self.isEnabled = true
         backgroundView.backgroundColor = Color.blue.uiColor
+        buttonIsActive = true
     }
     
     func inactive() {
@@ -50,6 +55,7 @@ final class CustomButtonAlert: UIButton {
         self.layer.borderColor = CGColor(gray: 1, alpha: 0.0)
         self.isEnabled = false
         backgroundView.backgroundColor = .systemGray4
+        buttonIsActive = false
     }
 }
 
