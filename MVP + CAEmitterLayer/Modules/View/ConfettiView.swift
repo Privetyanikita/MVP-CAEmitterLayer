@@ -99,8 +99,8 @@ final class ConfettiView: UIView {
     }
 
     // MARK: - Public Methods
-    func startConfetti(duration: TimeInterval = 3.0) {
-        confettiEmitterLayer.birthRate = 1.0
+    func startConfetti(duration: TimeInterval = 3.0, intensity: Float) {
+        confettiEmitterLayer.birthRate = intensity
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) { [weak self] in
             self?.stopConfetti()
         }

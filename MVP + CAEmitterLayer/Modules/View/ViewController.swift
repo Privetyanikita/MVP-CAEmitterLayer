@@ -42,7 +42,6 @@ class ViewController: UIViewController {
         setupViews()
         setupConstraint()
         addTargets()
-        presenter.viewDidLoad()
     }
     
     //MARK: - Methods
@@ -65,6 +64,10 @@ class ViewController: UIViewController {
         return brightness < 0.5
     }
     
+    private func updateStatusProgressLabel() {
+        statusProgressLabel.text = "\(Int((progressBar.progress * 10).rounded()))/10"
+    }
+    
     private func updateColors() {
         if isColorDark(view.backgroundColor ?? .white) {
             crossImageView.image = UIImage(systemName: "xmark")?.withTintColor(.white, renderingMode: .alwaysOriginal)
@@ -82,15 +85,9 @@ class ViewController: UIViewController {
     }
     
     func showConfetti() {
-        confetti.startConfetti()
+        confetti.startConfetti(intensity: Float(progressBar.progress * 3.0))
     }
     
-    func checkProgress() {
-        if progressBar.progress > 0.9 {
-            confetti.layoutIfNeeded()
-            showConfetti()
-        }
-    }
     
     //MARK: - Actions
     @objc private func firstButtonTapped() {
@@ -102,12 +99,14 @@ class ViewController: UIViewController {
     }
     
     @objc private func secondButtonTapped() {
-        presenter.updateProgress(action: .increment)
-        checkProgress()
+        progressBar.addProgress()
+        showConfetti()
+        updateStatusProgressLabel()
     }
     
     @objc private func thirdButtonTapped() {
-        presenter.updateProgress(action: .decrement)
+        progressBar.deleteProgress()
+        updateStatusProgressLabel()
     }
     
     @objc private func fourthButtonTapped() {
@@ -115,7 +114,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func crossButtonTapped() {
-        presenter.updateProgress(action: .reset)
+        progressBar.resetProgress()
         resetColors()
     }
     
@@ -132,12 +131,13 @@ extension ViewController {
         statusProgressLabel.snp.makeConstraints { make in
             make.top.equalTo(crossImageView)
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.width.equalTo(50)
         }
         
         progressBar.snp.makeConstraints { make in
             make.centerY.equalTo(crossImageView)
             make.leading.equalTo(crossImageView.snp.trailing).offset(43)
-            make.width.equalTo(210)
+            make.trailing.equalTo(statusProgressLabel.snp.leading).offset(-37)
             make.height.equalTo(13)
         }
         
@@ -176,22 +176,7 @@ extension ViewController {
 }
 
 // MARK: - MainViewProtocol Implementation
-extension ViewController: MainViewProtocol {
-    func updateProgressLabel(text: String) {
-        statusProgressLabel.text = text
-    }
-    
-    func updateProgressBar(action: ProgressBarAction) {
-        switch action {
-        case .add:
-            progressBar.addProgress()
-        case .delete:
-            progressBar.deleteProgress()
-        case .reset:
-            progressBar.resetProgress()
-        }
-    }
-    
+extension ViewController: MainViewProtocol {    
     func randomColorBackground() {
         view.backgroundColor = UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1), alpha: 1.0)
         updateColors()

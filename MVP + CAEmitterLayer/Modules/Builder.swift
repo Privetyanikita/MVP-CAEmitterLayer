@@ -10,8 +10,7 @@ import Foundation
 final class Builder {
     static func build() -> ViewController {
         let view = ViewController()
-        let model = ProgressModel()
-        let presenter = MainPresenter(view: view, model: model)
+        let presenter = MainPresenter(view: view)
         view.presenter = presenter
         return view
     }
